@@ -34,11 +34,15 @@ body{
   margin: 0 auto;
   display:flex;
   justify-content: center;
-  .goLeft,.goRight {
+  border-radius: 10px;
+  overflow: hidden;
+  .previous,.next {
     flex: 1 0 auto;
     display:flex;
     justify-content:center;
     align-items: center;
+    border-style: none;
+    cursor: pointer;
   }
   .imageRollHider {
     flex: none;
@@ -46,7 +50,7 @@ body{
     height: var(--rollImageHeight);
     width: var(--rollImageWidth);
     position: relative; /* Parent must be positioned */
-    border: 1px solid black;
+    /* border: 1px solid black; */
   }
   .imageRoll {
     position: absolute; /*to use left prop*/
