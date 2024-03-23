@@ -10,39 +10,58 @@ button { display: block; cursor: pointer; }
 /* variables---------------------------------------------------------------- */
 :root{
   /* --bgColor: hsl(204 85% 61%); */
+  --rollImageWidth: 400px;
+  --rollImageHeight: 300px;
+  /* set below via JS to image index*/
+  --imageIndex:0;
 }
 
 /* main CSS */
 body{
-  /* height: 100vh; */
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   font-weight: 400;
-  background-color: var(--bgColor, hsl(34, 100%, 31%)); /*defined in place*/
+  /*defined in place for practice*/
+  background-color: var(--bgColor, hsl(34, 100%, 20%));
   h1 {
     text-align: center;
     margin: 1rem 0;
   }
-
-  .carouselFrame {
-    position: relative; /* Parent must be positioned */
-    height: 300px; /* Updated height */
-    width: 600px; /* Updated width */
-    background-color: #aaa; /* Light grey background */
-    margin: 0 auto;
-  }
-
-  .carouselWheel {
-    position: absolute; /* Child is positioned absolutely */
-    left: 50%; /* left edge at 50% of the parent's width */
-    transform: translateX(-50%) scale(var(--scale-factor, 1)); /* Center using 50% child's width, set default scale value of 100% */
-    height: 300px; /* Updated height */
-    width: 400px; /* Updated width */
-    background-color: #e5e5e5;
-  }
-
-  .larger {
-    /* set --scale-factor to 150% */
-    /* --scale-factor: 1.5; */
-  }
-
 }
+.sliderFrame {
+  height: var(--rollImageHeight);
+  width: 500px;
+  background-color: #aaa;
+  margin: 0 auto;
+  display:flex;
+  justify-content: center;
+  .goLeft,.goRight {
+    flex: 1 0 auto;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+  }
+  .imageRollHider {
+    flex: none;
+    overflow: hidden;
+    height: var(--rollImageHeight);
+    width: var(--rollImageWidth);
+    position: relative; /* Parent must be positioned */
+    border: 1px solid black;
+  }
+  .imageRoll {
+    position: absolute; /*to use left prop*/
+    /*imageRoll position set by --imageIndex via js */
+    left: calc( -1*var(--rollImageWidth)*var(--imageIndex) );
+    background-color: #e5e5e5;
+    display: flex;
+  }
+  .image {/* container for each image */
+    height: var(--rollImageHeight);
+    width: var(--rollImageWidth);
+    background-color: orange;
+  }
+}
+
+
+
+

@@ -1,4 +1,4 @@
-# image carousel component
+# image slider component
 ---
 made from webpack-odin-boilerplate:
 

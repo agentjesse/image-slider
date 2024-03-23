@@ -14,10 +14,11 @@
         "arrow-spacing":"off",
         "arrow-parens":"off",
         "spaced-comment":"off",
-        "space-in-parens":"warn",
+        "space-in-parens":"off",
         "no-unused-vars":"warn",
         "no-shadow":"warn",
         "comma-dangle":"off",
-        "no-unneeded-ternary":"warn"
+        "no-unneeded-ternary":"warn",
+        "default-case":"off"
     }
 }
