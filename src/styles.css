@@ -9,10 +9,25 @@ button { display: block; cursor: pointer; }
 /* .roboto { font-family: "Roboto"; font-weight: 400,500; font-style: normal; } */
 /* variables---------------------------------------------------------------- */
 :root{
+  --black: hsl(0, 0%, 0%);
+  --white: hsl(0, 0%, 100%);
+  /* tailwind blue palette based, then hue shifted*/
+  --bg950: hsl(199, 91%, 9%);
+  --bg900: hsl(197, 86%, 16%);
+  --bg800: hsl(196, 88%, 20%);
+  --bg700: hsl(196, 94%, 24%);
+  --bg600: hsl(194, 94%, 30%);
+  --mg500: hsl(193, 84%, 39%);
+  --fg400: hsl(191, 64%, 52%);
+  --fg300: hsl(189, 72%, 67%);
+  --fg200: hsl(185, 76%, 80%);
+  --fg100: hsl(182, 80%, 90%);
+  --fg50:  hsl(185, 81%, 96%);
   /* --bgColor: hsl(204 85% 61%); */
   --rollImageWidth: 400px;
   --rollImageHeight: 300px;
-  /* set below via JS to image index*/
+  --navigationDotsHeight: 1.5rem;
+  /* set below via JS to show image from its zero based index*/
   --imageIndex:0;
 }
 
@@ -20,49 +35,72 @@ button { display: block; cursor: pointer; }
 body{
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   font-weight: 400;
-  /*defined in place for practice*/
-  background-color: var(--bgColor, hsl(34, 100%, 20%));
+  background-color: var(--bg900);
   h1 {
+    color: var(--fg50);
+    font-weight: inherit; /*avoids UA stylesheet*/
     text-align: center;
     margin: 1rem 0;
   }
 }
 .sliderFrame {
-  height: var(--rollImageHeight);
-  width: 500px;
-  background-color: #aaa;
+  /* height: var(--rollImageHeight); */
+  height: calc( var(--rollImageHeight) + var(--navigationDotsHeight) ); /*1.5 rem for nav dots*/
+  width: calc(var(--rollImageWidth) + 5rem); /*6 rem = two 2.5rem btns*/
   margin: 0 auto;
   display:flex;
+  flex-wrap: wrap;
   justify-content: center;
-  border-radius: 10px;
-  overflow: hidden;
-  .previous,.next {
-    flex: 1 0 auto;
+  .cornerRoundWrap {
     display:flex;
-    justify-content:center;
-    align-items: center;
-    border-style: none;
-    cursor: pointer;
-  }
-  .imageRollHider {
-    flex: none;
+    flex: 1 0 auto;
+    flex-basis: 100%;
     overflow: hidden;
-    height: var(--rollImageHeight);
-    width: var(--rollImageWidth);
-    position: relative; /* Parent must be positioned */
-    /* border: 1px solid black; */
+    border-radius: 10px;
+    .previous,.next {
+      flex: 1 0 auto;
+      display:flex;
+      justify-content:center;
+      align-items: center;
+      border-style: none;
+      background-color: var(--fg50);
+      color: var(--bg950);
+      cursor: pointer;
+    }
+    .imageRollHider {
+      flex: none;
+      overflow: hidden;
+      height: var(--rollImageHeight);
+      width: var(--rollImageWidth);
+      position: relative; /* Parent must be positioned */
+    }
+    .imageRoll {
+      display: flex;
+      position: absolute; /*to use left prop*/
+      /*imageRoll position set by --imageIndex via js */
+      left: calc( -1*var(--rollImageWidth)*var(--imageIndex) );
+      transition: left .5s linear;
+    }
+    .image {/* container for each image */
+      height: var(--rollImageHeight);
+      width: var(--rollImageWidth);
+      background-color: var(--black);
+      color: var(--white);
+      box-shadow: 0 0 24px 3px var(--white) inset;
+    }
   }
-  .imageRoll {
-    position: absolute; /*to use left prop*/
-    /*imageRoll position set by --imageIndex via js */
-    left: calc( -1*var(--rollImageWidth)*var(--imageIndex) );
-    background-color: #e5e5e5;
+  .navigationDots {
+    flex-basis: 100%;
+    height: var(--navigationDotsHeight);
+    color: var(--fg100);
     display: flex;
-  }
-  .image {/* container for each image */
-    height: var(--rollImageHeight);
-    width: var(--rollImageWidth);
-    background-color: orange;
+    justify-content: center;
+    .navDot {
+      text-align: center;
+      line-height: 1.25rem;
+      font-size: 2.5rem;
+      cursor: pointer;
+    }
   }
 }
 

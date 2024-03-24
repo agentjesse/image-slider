@@ -10,46 +10,68 @@ import './styles.css';
 import { logToConsole as lg, tableToConsole as tb } from './logger'; //shorthand loggers
 
 const imageSliderSetup = ( ()=> {
-  let imageIndex = 0; //control index for zero-indexed images
-  const totalImages = 5; //match to .image divs
+  //state vars with initalizations ready for dependencies if needed.
+  let imageIndex = 0; //zero-indexed images
+  const totalImages = 5; //match to amount of .image divs
+  let lastDisplayedImageIndex = totalImages - 1;
+  const navDots = document.querySelectorAll('.navDot');
 
-  //change CSS variable after logic used to change imageIndex
-  const setCSSVarImageIndex = ()=> document.documentElement.style.setProperty( '--imageIndex', imageIndex );
+  //after state is ready, set the CSS variable and appropriate new content
+  const updateDisplay = ()=> {
+    document.documentElement.style.setProperty( '--imageIndex', imageIndex );
+    //set old and new dots
+    navDots[lastDisplayedImageIndex].textContent = '○';
+    navDots[imageIndex].textContent = '●';
+  };
+  updateDisplay();//for first run
+
+  const goToNext = ()=> {
+    if ( imageIndex === totalImages - 1 ) { // if at last image
+      lastDisplayedImageIndex = imageIndex; //set last image
+      imageIndex = 0; //set next image
+      updateDisplay(); //use the new settings
+    } else {
+      lastDisplayedImageIndex = imageIndex;
+      ++imageIndex;
+      updateDisplay();
+    }
+  };
+
+  const goToPrevious = ()=> {
+    if ( imageIndex === 0 ) { //if at first image
+      lastDisplayedImageIndex = imageIndex; //set last image
+      imageIndex = totalImages - 1; //set next image
+      updateDisplay(); //use the new settings
+    } else {
+      lastDisplayedImageIndex = imageIndex;
+      --imageIndex;
+      updateDisplay();
+    }
+  };
+
+  const goToPicked = dotIndex=> {
+    lastDisplayedImageIndex = imageIndex;
+    imageIndex = dotIndex;
+    updateDisplay();
+  };
 
   // listener for next/previous image buttons
   document.querySelector('.sliderFrame').addEventListener( 'click', e=> {
     e.stopPropagation();
-    switch (e.target.className) {
+    switch ( e.target.className ) {
       case 'previous':
-        if (imageIndex === 0) { //at first image
-          imageIndex = totalImages - 1; //go to last by setting new control index
-          setCSSVarImageIndex();
-        } else {
-          --imageIndex;
-          setCSSVarImageIndex();
-        }
+        goToPrevious();
         break;
       case 'next':
-        if (imageIndex === totalImages - 1) { //at last image
-          imageIndex = 0; //go to first
-          setCSSVarImageIndex();
-        } else {
-          ++imageIndex;
-          setCSSVarImageIndex();
-        }
+        goToNext();
+        break;
+      case 'navDot':
+        //make sure to extract correct type (number) from dataset!!!
+        goToPicked( +e.target.dataset.dotIndex );
     }
   } );
 
-  //auto advance to next image every 5 seconds
-  setInterval( ()=> {
-    if (imageIndex === totalImages - 1) { //at last image
-      imageIndex = 0; //go to first
-      setCSSVarImageIndex();
-    } else {
-      ++imageIndex;
-      setCSSVarImageIndex();
-    }
-  }, 5000 ); //every 5 seconds
+  //auto advance to next image every 5 seconds. save intervalID if needed.
+  setInterval( goToNext, 5000 ); //every 5 seconds
 
-  // return { test: 'hi' };
 } )();
