@@ -7,9 +7,9 @@
 import './styles.css';
 
 // module imports, from named and default
-import { logToConsole as lg, tableToConsole as tb } from './logger'; //shorthand loggers
+// import { logToConsole as lg, tableToConsole as tb } from './logger'; //shorthand loggers
 
-const imageSliderSetup = ( ()=> {
+( ()=> {
   //state vars with initalizations ready for dependencies if needed.
   let imageIndex = 0; //zero-indexed images
   const totalImages = 5; //match to amount of .image divs
@@ -71,7 +71,6 @@ const imageSliderSetup = ( ()=> {
     }
   } );
 
-  //auto advance to next image every 5 seconds. save intervalID if needed.
-  setInterval( goToNext, 5000 ); //every 5 seconds
-
+  //auto advance to next image every 5 seconds. save returned intervalID if needed.
+  setInterval( goToNext, 5000 );
 } )();
